@@ -54,8 +54,6 @@ INSTALLED_APPS = [
 ]
 
 AUTH_USER_MODEL = 'projectaccount.Account'
-# USER_DETAILS_SERIALIZER = CustomUserDetailsSerializer
-# REST_AUTH_SERIALIZERS = {     'USER_DETAILS_SERIALIZER':'users.serializers.CustomUserDetailsSerializer' } 
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -173,27 +171,11 @@ STATIC_ROOT = "/var/www/example.com/static/"
 
 VENV_PATH = os.path.dirname(BASE_DIR)
 
-# STATIC_ROOT = os.path.join(VENV_PATH, 'static_root')
 
-# Default primary key field type
-# https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 
-# Base url to serve media files
-# MEDIA_URL = '/media/'
-
-
-# Path where media is stored
-# MEDIA_ROOT = os.path.join(BASE_DIR, 'media/')
-
-# STATICFILES_DIRS = [
-#     os.path.join(BASE_DIR, "static"),
-#     '/var/www/static/',
-# ]
-
-# STATIC_ROOT = "/var/www/example.com/static/"
 
 # Actual directory user files go to
 MEDIA_ROOT = os.path.join(os.path.dirname(BASE_DIR), 'mediafiles')
@@ -201,13 +183,6 @@ MEDIA_ROOT = os.path.join(os.path.dirname(BASE_DIR), 'mediafiles')
 # URL used to access the media
 MEDIA_URL = '/media/'
 
-# SESSION_COOKIE_SECURE = False
-
-# AUTHENTICATION_BACKENDS = [
-#    'django.contrib.auth.backends.ModelBackend',
-# ]
-
-# # SESSION_COOKIE_DOMAIN = None
 # SESSION_ENGINE = 'django.contrib.sessions.backends.db'
 # SESSION_COOKIE_DOMAIN = 'localhost'
 HOSTNAME = 'http://127.0.0.1:8000/'

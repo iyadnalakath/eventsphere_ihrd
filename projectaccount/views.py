@@ -26,61 +26,6 @@ from django.http import Http404
 
 
 
-
-# Create your views here.
-
-# class LoginView(APIView):
-# def post(self, request):
-#     serializer = LoginSerializer(data=request.data)
-#     if serializer.is_valid():
-#         user = serializer.validated_data
-#         return Response(status=status.HTTP_200_OK)
-#     return Response(serializer.errors,status=status.HTTP_400_BAD_REQUEST)
-
-#     context = {}
-#     username = request.data.get('username')
-#     password = request.data.get('password')
-#     account = authenticate(username=username, password=password )
-
-#     if account:
-#         try:
-#             token = Token.objects.get(user=account)
-#         except Token.DoesNotExist:
-#             token = Token.objects.create(user=account)
-#         context['response'] = 'Successfully authenticated.'
-#         context['pk'] = account.pk
-#         context['username'] = username.lower()
-#         context['token'] = token.key
-#         context['role'] = account.role
-#         return Response(context,status=status.HTTP_200_OK)
-#     else:
-#         context['response'] = 'Error'
-#         context['error_message'] = 'The username or password is incorrect'
-#         return Response(context,status=status.HTTP_401_UNAUTHORIZED)
-
-
-# class RegisterView(APIView):
-#     permission_classes= [AllowAny]
-#     def post(self,request):
-#         serializer = RegisterSerializer(data=request.data)
-#         if serializer.is_valid():
-#             account = serializer.save()
-
-#             data['email'] = account.email
-#             data['username'] = account.username
-#             data['pk'] = account.pk
-#             data['response'] = 'successfully registered new user.'
-
-#             token = Token.objects.get(user=account).key
-#             data['token'] = token
-
-#             status_code=status.HTTP_200_OK
-#             return Response(data,status=status_code)
-#         else:
-#             data = serializer.errors
-#         return Response(data,status=status.HTTP_401_UNAUTHORIZED)
-
-
 class RegisterCustomerView(APIView):
     permission_classes = [AllowAny]
 
@@ -150,16 +95,6 @@ class RegisterEventTeamView(APIView):
             raise PermissionDenied("You are not allowed to retrieve this object.")
 
 
-# class RegisterView(APIView):
-#     def post(self,request):
-#         serializer = RegisterSerializer(data=request.data)
-#         if serializer.is_valid():
-#             user = serializer.save()
-#             return Response(status=status.HTTP_201_CREATED)
-#         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-
-
-
 class LoginView(APIView):
     permission_classes = [AllowAny]
 
@@ -190,14 +125,10 @@ class LoginView(APIView):
             return Response(context, status=status.HTTP_401_UNAUTHORIZED)
 
 
-# class LoginView(generics.CreateAPIView):
-#     permission_classes = [AllowAny]
-#     serializer_class = LoginSerializer
 class LogoutView(views.APIView):
     permission_classes = (IsAuthenticated,)
 
     def post(self, request):
-        # Django's built-in logout function clears the session and removes the user's authentication token.
         logout(request)
         return Response(status=204)
 
@@ -212,7 +143,6 @@ class ListUsersView(generics.ListAPIView):
         queryset = self.get_queryset()
         if self.request.user.role == "admin":
             serializer = UserListSerializer(queryset, many=True)
-            # return super().list(request, *args, **kwargs)
             return Response(serializer.data, status=status.HTTP_200_OK)
 
         else:
@@ -256,20 +186,6 @@ class SingleUserView(ModelViewSet):
         else:
             raise PermissionDenied("You are not allowed to delete this object.")
 
-        
-# class EventManagementUsersView(generics.ListAPIView):
-#     queryset = Account.objects.filter(role="event_management")
-#     serializer_class = EventManagementListSerializer
-
-#     def list(self, request, *args, **kwargs):
-#         queryset = self.get_queryset()
-#         if self.request.user.role == "admin":
-#             serializer = EventManagementListSerializer(queryset, many=True)
-#             # return super().list(request, *args, **kwargs)
-#             return Response(serializer.data, status=status.HTTP_200_OK)
-
-#         else:
-#             raise PermissionDenied("You are not allowed to retrieve this object.")
 
 
 class EventManagementUsersView(ModelViewSet):
@@ -281,7 +197,6 @@ class EventManagementUsersView(ModelViewSet):
         queryset = self.get_queryset()
         if self.request.user.role == "admin":
             serializer = EventManagementListSerializer(queryset, many=True)
-            # return super().list(request, *args, **kwargs)
             return Response(serializer.data, status=status.HTTP_200_OK)
 
         else:

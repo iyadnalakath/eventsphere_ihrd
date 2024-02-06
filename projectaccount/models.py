@@ -19,8 +19,6 @@ class AccountManager(BaseUserManager):
         if not username:
             raise ValueError("user must have username")
 
-        # user = authenticate(username=username, password=password)
-
         user = self.model(
             email=self.normalize_email(email), username=username, password=password
         )
@@ -35,7 +33,7 @@ class AccountManager(BaseUserManager):
             phone=phone,
             password=password,
         )
-        # user.is_active = True
+    
 
         user.is_admin = True
         user.is_staff = True
@@ -72,9 +70,6 @@ class Account(AbstractBaseUser):
     place = models.CharField(max_length=255, null=False, blank=False, default="")
     work_time = models.CharField(max_length=255, null=True, blank=True)
     over_view = models.CharField(max_length=555, null=True, blank=True)
-    # profile=models.ForeignKey(models.TeamProfile,null=True,blank=True)
-    # profile_pic=models.ImageField(upload_to ='mediafiles',default="",null=True,blank=True)
-    # more_photos=models.ImageField(upload_to ='mediafiles',default="",null=True,blank=True)
     pin_code = models.CharField(max_length=255, null=True, blank=True)
     district = models.CharField(max_length=255, null=True, blank=True)
 
@@ -103,8 +98,6 @@ class Account(AbstractBaseUser):
     def __str__(self):
         return self.email
 
-    # def __str__(self) -> str:
-    #     return self.team_name
 
     def has_perm(self, perm, obj=None):
         return self.is_admin
@@ -112,14 +105,6 @@ class Account(AbstractBaseUser):
     def has_module_perms(self, app_label):
         return True
     
-# class TeamProfile(BaseModel):
-#     account = models.ForeignKey(
-#         Account, on_delete=models.CASCADE, related_name="team_profilepic", null=True, blank=True
-#     )
-#     team_profile = models.ImageField(
-#         upload_to="mediafiles", default="", null=True, blank=True
-#     )
-
 
 @receiver(post_save, sender=settings.AUTH_USER_MODEL)
 def create_auth_token(sender, instance=None, created=False, **kwargs):
